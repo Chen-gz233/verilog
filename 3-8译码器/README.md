@@ -1,5 +1,5 @@
 
-![image]([state transition diagram.png](https://github.com/Chen-gz233/verilog/blob/main/3-8%E8%AF%91%E7%A0%81%E5%99%A8/state%20transition%20diagram.png))
+![Image text]([state transition diagram.png](https://github.com/Chen-gz233/verilog/blob/main/3-8%E8%AF%91%E7%A0%81%E5%99%A8/state%20transition%20diagram.png))
 
 
 
