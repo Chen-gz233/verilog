@@ -1,5 +1,5 @@
 
-![](state transition diagram.png)
+![image](state transition diagram.png)
 
 
 
