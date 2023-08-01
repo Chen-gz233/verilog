@@ -1,5 +1,5 @@
-![state transition diagram](..\3-8译码器\state transition diagram.png)
 
+![]state transition diagram.png)
 
 
 
