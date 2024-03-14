@@ -1,10 +1,3 @@
-<<<<<<< HEAD
-![state transition diagram](..\3-8译码器\state transition diagram.png)
-
-
-
-
-
 ![state transition diagram](https://github.com/Chen-gz233/verilog/assets/56514489/84d63c39-6e4b-49e7-a808-6b4fd3300f38)
 
 
