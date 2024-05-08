@@ -19,8 +19,8 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-`define BUF_WIDTH   4     //µØÖ·¿í¶ÈÎª3+1£¬
-`define BUF_SIZE    (8)    //Êý¾Ý¸öÊý£¬FIFOÉî¶È
+`define BUF_WIDTH   4     //ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½Îª3+1ï¿½ï¿½
+`define BUF_SIZE    (8)    //ï¿½ï¿½ï¿½Ý¸ï¿½ï¿½ï¿½ï¿½ï¿½FIFOï¿½ï¿½ï¿½
 
 module tb_fifo;
 	reg clk,rst_n;
@@ -81,7 +81,7 @@ module tb_fifo;
 		pop();
 		push(140);
 		pop();
-		
+	$stop;	
 	end
 	
 	task push (input [7:0] data);
@@ -93,13 +93,19 @@ module tb_fifo;
 		end
 	endtask
 	
-	task pop();
+	task pop;
 	begin
 			rd_en = 1;
 			@(posedge clk);
 			#3 rd_en = 0;
 	end
 	endtask
-	
+	//$finish;
+initial begin
+$dumpfile("test.vcd");
+
+$dumpvars(0, tb_fifo);	
+
+end	
 	
 endmodule 
