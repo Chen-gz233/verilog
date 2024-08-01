@@ -6,10 +6,10 @@ module full_adder(
     input   C_in      ,
 
     output  S         ,
-    output  C_out     ,      
+    output  C_out           
 );
-    assign S = A ^ B ^ C_in;
-    assign C_out = ((A ^ B)&C_in) | (A&B) ;
+    assign S = A ^ B ^ C_in;//相同为0不同为1
+    assign C_out = (A & B)|(A & C_in)| (B & C_in) ; //有一个1就是满足进位
 
 
 

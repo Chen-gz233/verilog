@@ -1,55 +1,37 @@
-reference: https://zhuanlan.zhihu.com/p/95081329
-### Icarus Verilog编译器主要包含3个工具：
+# 同步FIFO的两种Verilog设计方法（计数器法、高位扩展法）
+https://blog.csdn.net/wuzhikaidetb/article/details/121136040
 
-- iverilog：用于编译verilog和vhdl文件，进行语法检查，生成可执行文件
-- vvp：根据可执行文件，生成仿真波形文件
-- gtkwave：用于打开仿真波形文件，图形化显示波形
+FIFO 与普通存储器 RAM 的区别是没有外部读写地址线，使用起来非常简单，但缺点就是只能顺序写 入数据，顺序的读出数据，其数据地址由内部读写指针自动加 1 完成，不能像普通存储器那样可以由地址线决定读取或写入某个指定的地址。 FIFO 本质上是由 RAM 加读写控制逻辑构成的一种先进先出的数据缓冲器。
 
-### 参数 -o
-这是比较常用的一个参数了，和GCC中-o的使用几乎一样，用于指定生成文件的名称。如果不指定，默认生成文件名为a.out。如：iverilog -o test test.v
+## FIFO 的常见参数：
 
-### 参数-y
-用于指定包含文件夹，如果top.v中调用了其他的的.v模块，top.v直接编译会提示
-```
-led_demo_tb.v:38: error: Unknown module type: led_demo
-2 error(s) during elaboration.
-*** These modules were missing:
-        led_demo referenced 1 times.
-***
-```
-找不到调用的模块，那么就需要指定调用模块所在文件夹的路径，支持相对路径和绝对路径。
+- FIFO 的宽度：即 FIFO 一次读写操作的数据位
+- FIFO 的深度：指的是 FIFO 可以存储多少个 N 位的数据（如果宽度为 N）
 
-如：``` iverilog -y D:/test/demo led_demo_tb.v ```
+## FIFO 读写指针（读写指针就是读写地址）的工作原理：
 
-如果是同一目录下：```iverilog -y ./ led_demo_tb.v```
+- 写指针：总是指向下一个将要被写入的单元，复位时，指向第 1 个单元(编号为 0) 
+- 读指针：总是指向当前要被读出的数据，复位时，指向第 1 个单元(编号为 0) FIFO 的“空”/“满”检测 
 
-###  参数-I
-如果程序使用`include语句包含了头文件路径，可以通过-i参数指定文件路径，使用方法和-y参数一样。
-
-如：```iverilog -I D:/test/demo led_demo_tb.v```
+ ## FIFO 设计的关键
+ - 产生可靠的 FIFO 读写指针和生成 FIFO“空”/“满”状态标志。 
+ - 当读写指针相等时，表明 FIFO 为空，这种情况发生在复位操作时，或者当读指针读出 FIFO 中最后一 个字后，追赶上了写指针时
 
 
-### 参数 -tvhdl
-iverilog还支持把verilog文件转换为VHDL文件，如```iverilog -tvhdl -o out_file.vhd in_file.v```
+ # 计数器法
+
+   构建一个计数器，该计数器(fifo_cnt)用于指示当前 FIFO 中数据的个数：
+
+- 复位时，该计数器为0，FIFO中的数据个数为0
+- 当读写使能信号均有效时，说明又读又写，计数器不变，FIFO中的数据个数无变化
+- 当写使能有效且 full=0，则 fifo_cnt +1；表示写操作且 FIFO 未满时候，FIFO 中的数据个数增加了 1 
+- 当读使能有效且 empty=0，则 fifo_cnt -1;表示读操作且 FIFO 未空时候，FIFO 中的数据个数减少了 1 
+- fifo_cnt =0 的时候，表示 FIFO 空，需要设置 empty=1；fifo_cnt = fifo的深度 的时候，表示 FIFO 现在已经满，需要设置 full=1
 
 
-##  编译
+# 高位扩展法
+ 举例在深度为8的FIFO中，需要3bit的读写指针来分别指示读写地址3'b000-3'b111这8个地址。若将地址指针扩展1bit，则变成4bit的地址，而地址表示区间则变成了4'b0000-4'b1111。假设不看最高位的话，后面3位的表示区间仍然是3'b000-3'b111，也就意味着最高位可以拿来作为指示位。
 
-```iverilog -o wave led_demo_tb.v led_demo.v```命令，对源文件和仿真文件，进行语法规则检查和编译
+- **当最高位不同，且其他位相同，则表示读指针或者写指针多跑了一圈，而显然不会让读指针多跑一圈（多跑一圈读啥？），所以可能出现的情况只能是写指针多跑了一圈，与就意味着FIFO被写满了**
 
-例如，```led_demo_tb.v```中调用了```led_demo.v```模块，就可以直接使用```iverilog -o wave -y ./ top.v top_tb.v```来进行编译。
-
-
-### 生成波形文件
-
-使用```vvp -n wave -lxt2```命令生成vcd波形文件，运行之后，会在当前目录下生成.vcd文件。
-
-
-如果没有生成，需要检查testbench文件中是否添加了如下几行：
-```
-initial
-begin            
-    $dumpfile("wave.vcd");        //生成的vcd文件名称
-    $dumpvars(0, led_demo_tb);    //tb模块名称
-end
-```
+- **当最高位相同，且其他位相同，则表示读指针追到了写指针或者写指针追到了读指针，而显然不会让写指针追读指针（这种情况只能是写指针超过读指针一圈），所以可能出现的情况只能是读指针追到了写指针，也就意味着FIFO被读空了**

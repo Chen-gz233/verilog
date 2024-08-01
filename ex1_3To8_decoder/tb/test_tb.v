@@ -28,8 +28,8 @@ decoder0 aaa01(
     );
     
     initial begin
-   A=0;B=0;C=0;
-   E1_n =1'b0;E2_n =1'b0;E3 =1'b1;
+    A=0;B=0;C=0;
+    E1_n =1'b0;E2_n =1'b0;E3 =1'b1;
     #10 A=1;B=0;C=0;
     #10 A=0;B=1;C=0;
     #10 A=1;B=1;C=0;
@@ -38,7 +38,7 @@ decoder0 aaa01(
     #10 A=0;B=1;C=1;
     #10 A=1;B=1;C=0;
     #10 A=1;B=1;C=1;
-     $stop;
+    $stop;
     end
 
 endmodule
