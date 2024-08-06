@@ -41,15 +41,16 @@ module dmux_cdc_tb();
         data_in =0 ;
         valid_in = 1'd0;
         repeat(20) @(posedge clk_f);
-
-        repeat(20) begin;
-        data_in ={$random}%8'hff ;
-        valid_in = 1'd1;
-        repeat(10) @(posedge clk_f); 
-        valid_in = 1'd0;
-        repeat(20) @(posedge clk_f);      
+            repeat(10) begin;
+            data_in ={$random}%8'hff ;
+            valid_in = 1'd1;
+            repeat(10) @(posedge clk_f); 
+            valid_in = 1'd0;
+            repeat(4) @(posedge clk_f);      
+            end
+        repeat(20) @(posedge clk_f);
         $finish;
-        end
+
     end
 
     dmux_cdc dmux_cdc_tb(
