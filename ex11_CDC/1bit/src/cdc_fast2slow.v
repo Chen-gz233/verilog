@@ -14,7 +14,7 @@ module cdc_fast2slow(
         pulse_f_ff <= {pulse_f_ff[1:0],pulse_f} ;
     end
 
-    wire pulse_s_w ;
+    wire pulse_s_w ;//展宽信号：有1就拉高
     assign pulse_s_w =  | pulse_f_ff ;//按位或
     
     
