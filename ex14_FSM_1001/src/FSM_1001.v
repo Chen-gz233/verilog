@@ -49,5 +49,5 @@ always @(posedge clk or negedge rst_n) begin
     end 
 
 end
-
+assign data_out = detect;
 endmodule

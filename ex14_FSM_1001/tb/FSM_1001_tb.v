@@ -13,6 +13,7 @@ always #10 clk = ~clk;
 initial begin
     clk = 1'b0 ;
     rst_n = 1'b0 ;
+data_in = 1'b0;
     #20
     rst_n = 1'b1;
 
@@ -32,7 +33,25 @@ initial begin
     #20 data_in = 0 ;
     #20 data_in = 0 ;
     #20 data_in = 1 ;
-
+     #100
+	$finish;
 
 end
+
+initial begin
+	$fsdbDumpfile("test_tb.fsdb");
+	$fsdbDumpvars;
+end
+
+FSM_1001 FSM_1001_tb(
+	.clk(clk),
+	.rst_n (rst_n),
+	.data_in(data_in),
+	.data_out(data_out)
+
+);
+
+
+
+
 endmodule
