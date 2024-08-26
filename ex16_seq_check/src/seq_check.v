@@ -23,6 +23,7 @@ module seq_check(
     always @(posedge clk or negedge rst_n) begin
         if(!rst_n)begin
             current_stage <= s0 ;
+ 		next_stage <= s0 ;
         end else begin
             current_stage <= next_stage ; 
         end
@@ -31,7 +32,7 @@ module seq_check(
 
 
     always @( * ) begin
-        case(data_in)
+        case(current_stage)
             s0 : next_stage = data_in ? s1 : s0 ;
             s1 : next_stage = data_in ? s1 : s2 ;
             s2 : next_stage = data_in ? s3 : s0 ;
@@ -47,7 +48,7 @@ module seq_check(
      always @(posedge clk or negedge rst_n) begin
         if(!rst_n)begin
             flag_reg <= 1'b0;
-        end esle if(next_stage == s6) begin
+        end else if(next_stage == s6) begin
             flag_reg <= 1'b1;
         end else begin
             flag_reg <= 1'b0;

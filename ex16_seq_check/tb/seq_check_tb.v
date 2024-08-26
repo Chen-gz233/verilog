@@ -34,7 +34,7 @@ initial begin
     #20 data_in = 1'b0 ;
     #20 data_in = 1'b0 ;
     #20 data_in = 1'b1 ;
-    $finish ;
+    #100 $finish ;
 
 
 
