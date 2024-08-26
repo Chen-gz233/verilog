@@ -23,8 +23,8 @@ always @(posedge clka or negedge rst_n) begin
         din_pal <= 8'd0 ;
     end else if (!wra_n) begin
         din_pal <= {din_pal[6:0],din};
-    end esle begin
-        din_pal <= 8'd0 ;
+    end else begin
+        din_pal <= din_pal ;
     end 
 end 
 

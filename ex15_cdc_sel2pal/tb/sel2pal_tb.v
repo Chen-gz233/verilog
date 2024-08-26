@@ -40,7 +40,7 @@ rst_n = 1;
 $finish;
 end
 
-ser_pal ser_pal_u(
+sel2pal ser_pal_u(
     .clka(clka),
     .clkb(clkb),
     .rst_n(rst_n),
