@@ -21,17 +21,19 @@ always @(posedge clk or negedge rst_n) begin
     if(!rst_n)begin
         current_stage<= s0 ;
         next_stage <= s0 ;
-    end esle begin
+    end else begin
         current_stage <= next_stage ; 
     end 
 end
 
 always (*) begin
     case(current_stage) //优先级顺序  从低位到高位，优先级递减 ： 也就是0>1>2 
-    s0 : next_stage =  reg[0] ? s1 : (reg[1] ? s2 : (reg[2] ? s3 : s0));
-    s1 : next_stage =  reg[0] ? s1 : s0 ;
-    s2 : next_stage =  reg[1] ? s2 : s0 ;
-    s3 : next_stage =  reg[2] ? s3 : s0 ;
+    s0 : next_stage =  req[0] ? s1 : (req[1] ? s2 : (req[2] ? s3 : s0));
+    s1 : next_stage =  req[0] ? s1 : (req[1] ? s2 : (req[2] ? s3 : s0)) ;
+    s2 : next_stage =  req[0] ? s1 : (req[1] ? s2 : (req[3] ? s3 : s0)) ;
+    s3 : next_stage =  req[0] ? s1 : (req[1] ? s2 : (req[3] ? s3 : s0)) ;
+    default : next_stage = s0 ;
+        
     endcase
 end 
 
