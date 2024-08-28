@@ -17,9 +17,13 @@ parameter s4   = 3'd4 ;
 
 reg [2:0] current_stage ;
 reg [2:0] next_stage ;
-
+reg [2:0] light1_reg ;
+reg [2:0] light2_reg ;
 reg [5:0] count_reg ;
 assign  count = count_reg;
+assign  light1 = light1_reg ;
+assign  light2 = light2_reg ;
+
 //计数器
 always @(posedge clk or negedge rst_n) begin
     if (!rst_n) begin
@@ -35,8 +39,8 @@ end
 //状态机
 always @(posedge clk or negedge rst_n) begin
     if (!rst_n) begin
-        current_stage <= s0 ;
-        next_stage <= s0 ;
+        current_stage <= IDLE ;
+        next_stage <= IDLE ;
     end else begin
         current_stage <= next_stage ;
     end 
@@ -45,11 +49,11 @@ end
 
 always @(posedge clk or negedge rst_n) begin
     case (current_stage)
-            IDLE : if(!rst_n             ) begin next_stage = s1 ; light1 = 3'b010 ; light2 = 3'b010 ; end
-            s1   : if(count_reg == 6'd25 ) begin next_stage = s2 ; light1 = 3'd100 ; light2 = 3'd001 ; end
-            s2   : if(count_reg == 6'd30 ) begin next_stage = s3 ; light1 = 3'd100 ; light2 = 3'd010 ; end
-            s3   : if(count_reg == 6'd55 ) begin next_stage = s4 ; light1 = 3'd001 ; light2 = 3'd100 ; end
-            s4   : if(count_reg == 6'd0  ) begin next_stage = s1 ; light1 = 3'd010 ; light2 = 3'd100 ; end
+            IDLE : if(!rst_n             ) begin next_stage <= s1 ; light1_reg <= 3'b010 ; light2_reg <= 3'b010 ; end
+            s1   : if(count_reg == 6'd25 ) begin next_stage <= s2 ; light1_reg <= 3'b100 ; light2_reg <= 3'b001 ; end
+            s2   : if(count_reg == 6'd30 ) begin next_stage <= s3 ; light1_reg <= 3'b100 ; light2_reg <= 3'b010 ; end
+            s3   : if(count_reg == 6'd55 ) begin next_stage <= s4 ; light1_reg <= 3'b001 ; light2_reg <= 3'b100 ; end
+            s4   : if(count_reg == 6'd0  ) begin next_stage <= s1 ; light1_reg <= 3'b010 ; light2_reg <= 3'b100 ; end
     endcase
 
 end

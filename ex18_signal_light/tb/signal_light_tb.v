@@ -1,9 +1,9 @@
 module signal_light_tb();
     reg clk ;
     reg rst_n ;
-    wire light1 ;
-    wire light2 ;
-    wire count ;
+    wire [2:0] light1 ;
+    wire [2:0] light2 ;
+    wire [5:0] count ;
 
     always #10 clk = ~clk ;
 
@@ -13,7 +13,7 @@ module signal_light_tb();
         #20 
         rst_n =1;
 
-        #500
+        #1000
         $finish ;
     end
 
