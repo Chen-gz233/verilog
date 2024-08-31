@@ -13,17 +13,20 @@ wire [7:0] data_out ;
 wire wfull  ;
 wire rempty ;
 
-always #10 clk_a = ~clk_a ;
-always #20 clk_b = ~clk_b ;
+always #2 clk_a = ~clk_a ;
+always #4 clk_b = ~clk_b ;
 
 initial begin
 rst_n = 0 ;
 clk_a = 0 ;
 clk_b = 0 ;
-#10;
+wr_en = 0 ;
+rd_en = 0 ;
+data_in = 8'b0;
+#8;
 
 rst_n = 1 ;
-#500;
+#1000;
 $finish;
 
 
@@ -85,7 +88,9 @@ asyncFIFO asyncFIFO_tb(
 
 );
 
-
-
+initial begin
+	$fsdbDumpfile("test_tb.fsdb");
+	$fsdbDumpvars;
+end
 
 endmodule
