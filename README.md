@@ -6,7 +6,9 @@
 
 建库进行备份
 
+```
 initial begin
 	$fsdbDumpfile("test_tb.fsdb");
 	$fsdbDumpvars;
 end
+```
