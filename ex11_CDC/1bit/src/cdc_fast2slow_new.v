@@ -9,10 +9,10 @@ module cdc_fast2slow_new(
 );
     //标志寄存器： 检测快时钟域中的脉冲信号
 
-    reg  pulse_f_flag = 0;
+    reg  pulse_f_flag = 0;  //核心思想就是：脉冲转电平
 
     always @(posedge clk_f) begin
-        if(pulse_f)begin
+        if(pulse_f)begin    //遇到一次脉冲信号就反转一次
             pulse_f_flag <= ~pulse_f_flag ;
         end else begin
             pulse_f_flag <= pulse_f_flag  ;
