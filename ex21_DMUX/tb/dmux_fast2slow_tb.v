@@ -1,4 +1,4 @@
-module dmux_tb ();
+module dmux_slow2fast_tb ();
 
 reg clk_a ;
 reg clk_b ;
@@ -10,8 +10,8 @@ wire  [7:0] data_out ;
 wire data_out_valid ;
 
 
-always #20 clk_a = ~clk_a ;
-always #10 clk_b = ~clk_b ;
+always #10 clk_a = ~clk_a ;
+always #20 clk_b = ~clk_b ;
 
 initial begin
     rst_n = 0 ;
@@ -24,17 +24,22 @@ initial begin
     rst_n = 1 ;
     data_in = 8'd54 ;
     #40
-
     data_in_valid = 1 ;
-    #40
+    #20
     data_in_valid = 0 ;
-    #100;
+    #180
+    data_in = 8'd45 ;
+    #20
+    data_in_valid = 1 ;
+    #20
+    data_in_valid = 0 ;
+    #400;
 
     $finish;
 
 end
 
- dmux dmux_tb (
+ dmux_slow2fast dmux_slow2fast_tb (
     .clk_a (clk_a),
     .rst_n (rst_n),
     .clk_b (clk_b),

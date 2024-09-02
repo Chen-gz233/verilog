@@ -1,6 +1,6 @@
 `timescale 1ns/1ns
 //dmux表示数据分配器，该方法适合带数据有效标志信号的多bit数据做跨时钟域传输。
-module dmux (
+module dmux_slow2fast (
     input clk_a ,
     input rst_n ,
     input clk_b ,
