@@ -18,7 +18,7 @@ module cdc_fast2slow_new(
             pulse_f_flag <= pulse_f_flag  ;
         end 
     end
-      
+    
     reg pulse_f_ff1;
     reg pulse_f_ff2;
     reg pulse_s_ff3;    //这里的第三拍为了异或操作
