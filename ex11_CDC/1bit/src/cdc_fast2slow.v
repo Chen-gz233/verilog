@@ -1,6 +1,5 @@
 `timescale 1ns/1ns
-//该模块只适合脉冲信号持续一个周期,如果信号持续两个周期就出问题啦
-//ref : https://blog.csdn.net/qq_39485231/article/details/105378323
+
 module cdc_fast2slow(
     input clk_f ,
     input clk_s ,
