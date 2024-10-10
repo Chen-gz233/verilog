@@ -1,6 +1,6 @@
 `timescale 1ns/1ns
 
-//慢时钟数据跨时钟域到快时钟域
+//慢时钟数据跨时钟域到快时钟域：触发器打两拍
 //单bit 电平信号做跨时钟域处理
 module cdc_slow2fast(
     input clk_s     ,

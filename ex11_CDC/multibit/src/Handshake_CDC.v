@@ -7,7 +7,7 @@ module data_driver (
 	
 	output reg [3:0] data_driver,
 	output reg data_req
-);
+	);
 
 	reg data_ack_ff1;
 	reg data_ack_ff2;
@@ -132,7 +132,7 @@ module CDC_TOP(
 	input clk_driver,
 	input clk_receiver,
 	input rst_n
-);
+	);
 
 	wire data_req;
 	wire data_ack;

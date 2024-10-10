@@ -2,6 +2,8 @@
 # 跨时钟域总结
 https://blog.csdn.net/claylovetoo/article/details/129140192
 
+https://www.51969.com/post/19516477.html
+
 秋招学习跨时钟域
 总结一下吧
 
